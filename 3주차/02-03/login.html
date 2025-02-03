@@ -15,14 +15,28 @@
       <br>
       <input id="btn_login" type="button" value="login" onclick="popId()">
     </form>
+    <br>
+    <button onclick="compareVariable()">비교하기</button>
 
     <script>
+      /* var vs let vs const */
+      function compareVariable() {
+        let num1 = 10;
+        const num2 = 30;
+
+        num1 = 20; // 값을 다시 넣음
+        alert('num1 : ' + num1);
+        alert('num2 : ' + num2);
+      }
+      
       /* ID란에 입력된 값을 팝업창에 띄우기 */
       function popId() {
-        if (!document.getElementById('txt_id').value) {
+        let userId = document.getElementById('txt_id').value;
+
+        if (!userId) {
           alert('아이디를 입력해주세요.');
         } else {
-          alert(document.getElementById('txt_id').value);
+          alert(userId);
         }
       }
 
