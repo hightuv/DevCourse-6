@@ -19,7 +19,11 @@
     <script>
       /* ID란에 입력된 값을 팝업창에 띄우기 */
       function popId() {
-        alert(document.getElementById('txt_id').value);
+        if (!document.getElementById('txt_id').value) {
+          alert('아이디를 입력해주세요.');
+        } else {
+          alert(document.getElementById('txt_id').value);
+        }
       }
 
       /* 나만의 함수를 만들고, 버튼 클릭하면 호출하기 */
