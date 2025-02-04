@@ -4,18 +4,8 @@ let url = require('url');
 function start(route, handle) {
   function onRequest(request, response) {
     let pathname = url.parse(request.url).pathname;
-    
-    if (pathname === '/favicon.ico') {
-      response.writeHead(204);
-      response.end();
-      return;
-    }
-    
-    route(pathname, handle);
-    
-    response.writeHead(200, {'Content-type' : 'text/html'});
-    response.write('Hello Node.js By hightuv');
-    response.end();
+
+    route(pathname, handle, response);
   }
   
   http.createServer(onRequest).listen(8888);
