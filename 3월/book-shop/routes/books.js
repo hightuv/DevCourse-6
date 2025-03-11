@@ -4,18 +4,18 @@ const router = express.Router();
 router.use(express.json());
 
 // 전체 도서 목록 조회
-router.get('/books', (req, res) => {
+router.get('/', (req, res) => {
   res.json('전체 도서 목록 조회');
 });
 
 // 개별 도서 조회
-router.get('/books/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   const { id } = req.params;
   res.json('개별 도서 조회');
 });
 
 // 카테고리 별 도서 목록 조회
-router.get('/books', (req, res) => {
+router.get('/', (req, res) => {
   const { categoryId, new: isNew } = req.query;
   res.json('카테고리 별 도서 목록 조회');
 });
