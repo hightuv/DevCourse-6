@@ -12,12 +12,14 @@ const cartRouter = require('./routes/carts');
 const likeRouter = require('./routes/likes');
 const memberRouter = require('./routes/members');
 const orderRouter = require('./routes/orders');
+const categoryRouter = require('./routes/categories');
 
 app.use('/books', bookRouter);
 app.use('/carts', cartRouter);
 app.use('/likes', likeRouter);
 app.use('/members', memberRouter);
 app.use('/orders', orderRouter);
+app.use('/categories', categoryRouter);
 
 app.listen(port, () => {
   console.log(`http://localhost:${port} 에서 서버 실행 중`);
