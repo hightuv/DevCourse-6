@@ -2,15 +2,32 @@ const db = require('../mariadb');
 const { StatusCodes } = require('http-status-codes');
 
 const getBooks = (req, res) => {
-  const { categoryId } = req.query;
+  const { categoryId, new: isNew, limit, page } = req.query;
 
   let query = 'select * from book';
+  let conditions = [];
   let values = [];
 
   if (categoryId) {
-    query = 'select * from book where category_id = ?';
-    values = [categoryId];
+    conditions.push('category_id = ?');
+    values.push(categoryId);
   }
+
+  if (isNew) {
+    conditions.push('pub_date between date_sub(now(), interval 1 month) and now()');
+  }
+
+  if (conditions.length) {
+    query += ` where ${conditions.join(' and ')}`;
+  }
+
+  // 페이징 추가
+  let limitNum = parseInt(limit) || 3;
+  const pageNum = parseInt(page) || 1;
+  const offset = limitNum * (pageNum - 1);
+
+  query += ` limit ? offset ?`;
+  values.push(limitNum, offset);
 
   db.query(query, values, (err, results) => {
     if (err) {
@@ -29,7 +46,7 @@ const getBooks = (req, res) => {
 const getBook = (req, res) => {
   const { id: bookId } = req.params;
 
-  const query = 'select * from book where id = ?';
+  const query = 'select b.*, c.name as category_name from book b left join category c on b.category_id = c.id where b.id = ?';
   const values = [bookId];
 
   db.query(query, values, (err, results) => {
