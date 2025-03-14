@@ -4,7 +4,7 @@ const { StatusCodes } = require('http-status-codes');
 const getBooks = (req, res) => {
   const { categoryId, new: isNew, limit, page } = req.query;
 
-  let query = 'select * from book';
+  let query = 'select *, (select count(*) from likes where book_id = book.id) as likes from book';
   let conditions = [];
   let values = [];
 
@@ -44,10 +44,20 @@ const getBooks = (req, res) => {
 };
 
 const getBook = (req, res) => {
+  const { memberId } = req.body;
   const { id: bookId } = req.params;
 
-  const query = 'select b.*, c.name as category_name from book b left join category c on b.category_id = c.id where b.id = ?';
-  const values = [bookId];
+  // const query = 'select b.*, c.name as category_name from book b left join category c on b.category_id = c.id where b.id = ?';
+  const query = `
+                select b.*,
+                  c.name as category_name,
+                  (select count(*) from likes where book_id = b.id) as likes,
+                  (select exists (select * from likes where member_id = ? and book_id = b.id)) as liked
+                from book b
+                left join category c on b.category_id = c.id
+                where b.id = ?;
+                `;
+  const values = [memberId, bookId];
 
   db.query(query, values, (err, results) => {
     if (err) {
