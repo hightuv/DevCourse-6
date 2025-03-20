@@ -1,22 +1,22 @@
 const dotenv = require('dotenv');
 dotenv.config();
 
-const mariadb = require('mysql2');
+const mariadb = require('mysql2/promise');
 
-const db = mariadb.createConnection({
+const pool = mariadb.createPool({
   host: 'localhost',
   user: 'root',
   password: process.env.PASSWORD,
   database: 'Bookshop',
-  dateStrings: true
+  dateStrings: true,
+  connectionLimit: 10
 });
 
-db.connect((err) => {
-  if (err) {
-    console.log('DB 연결 실패');
-  } else {
-    console.log('DB 연결 성공');
+module.exports = {
+  getConnection: () => {
+    return pool.getConnection();
+  },
+  releaseConnection: (conn) => {
+    if (conn) conn.release();
   }
-});
-
-module.exports = db;
+};
