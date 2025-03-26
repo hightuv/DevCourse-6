@@ -42,6 +42,7 @@ const login = (req, res) => {
 
     if (loginMember && loginMember.password === encryptedPassword) {
       const token = jwt.sign({
+        id: loginMember.id,
         email: loginMember.email
       }, process.env.PRIVATE_KEY, {
         expiresIn: '5m',

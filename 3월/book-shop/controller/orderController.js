@@ -1,9 +1,24 @@
-const { getConnection, releaseConnection } = require('../mariadb');
+const { getConnection, releaseConnection } = require('../mariadb2');
 const { StatusCodes } = require('http-status-codes');
+
+const ensureAuthorization = require('../auth');
+const jwt = require('jsonwebtoken');
 
 /** 주문하기 */
 const order = async (req, res) => {
-  const { memberId } = req.body;
+  const authorization = ensureAuthorization(req, res);
+  
+  if (authorization instanceof jwt.TokenExpiredError) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      'message': '로그인 세션이 만료되었습니다. 다시 로그인 하세요.'
+    });
+  } else if (authorization instanceof jwt.JsonWebTokenError) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      'message': '잘못된 토큰입니다.'
+    });
+  }
+  
+  const { id: memberId } = authorization;
   const { items, delivery, totalQuantity, totalPrice, firstBookTitle } = req.body;
 
   let conn;
@@ -63,7 +78,19 @@ const order = async (req, res) => {
 
 /** 주문 목록 조회 */
 const getOrders = async (req, res) => {
-  const { memberId } = req.body;
+  const authorization = ensureAuthorization(req, res);
+  
+  if (authorization instanceof jwt.TokenExpiredError) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      'message': '로그인 세션이 만료되었습니다. 다시 로그인 하세요.'
+    });
+  } else if (authorization instanceof jwt.JsonWebTokenError) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      'message': '잘못된 토큰입니다.'
+    });
+  }
+  
+  const { id: memberId } = authorization;
 
   let conn;
   let query;
@@ -93,7 +120,19 @@ const getOrders = async (req, res) => {
 };
 
 const getOrderDetail = async (req, res) => {
-  const { memberId } = req.body;
+  const authorization = ensureAuthorization(req, res);
+  
+  if (authorization instanceof jwt.TokenExpiredError) {
+    return res.status(StatusCodes.UNAUTHORIZED).json({
+      'message': '로그인 세션이 만료되었습니다. 다시 로그인 하세요.'
+    });
+  } else if (authorization instanceof jwt.JsonWebTokenError) {
+    return res.status(StatusCodes.BAD_REQUEST).json({
+      'message': '잘못된 토큰입니다.'
+    });
+  }
+  
+  const { id: memberId } = authorization;
   const { id: orderId } = req.params;
 
   let conn;
@@ -123,7 +162,6 @@ const getOrderDetail = async (req, res) => {
   } finally {
     if (conn) releaseConnection(conn);
   }
-
 };
 
 module.exports = {
