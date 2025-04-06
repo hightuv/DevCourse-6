@@ -1,5 +1,5 @@
-import { store, updateStorage } from "../store";
-import { toHidden, toShow } from "../util";
+import { store, updateStorage } from "../store.js";
+import { toHidden, toShow } from "../util.js";
 
 const $currentAssetInput = document.querySelector(".current-asset-input");
 const $currentAssetValue = document.querySelector(".current-asset-value");

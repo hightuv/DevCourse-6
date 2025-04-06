@@ -54,19 +54,18 @@ export function addNewHistory(newHistory) {
      * - store의 detailList 새로 갱신
      * - store.currentFunds 새로 갱신
      */
-
-    if (store.detailList[todayId]) {
+    if (store.detailList[store.todayId]) {
       /**
        * 1: [...]
        */
-      store.detailList[todayId].push(newHistory);
+      store.detailList[store.todayId].push(newHistory);
     } else {
       /**
        * {
        *  1: [newHistory]
        * }
        */
-      store.detailList[todayId] = [newHistory];
+      store.detailList[store.todayId] = [newHistory];
     }
 
     // 현재 자산 - amount

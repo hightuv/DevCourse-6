@@ -1,5 +1,5 @@
-import { renderCurrentAsset } from "../components/current-asset";
-import { store, removeHistory } from "../store";
+import { renderCurrentAsset } from "../components/current-asset.js";
+import { store, removeHistory } from "../store.js";
 
 const $sectionHistory = document.querySelector(".history");
 
@@ -45,7 +45,7 @@ export function renderHistoryList() {
       return `<article class="history-per-day">
       <p class="history-date">2021년 12월 1일</p>
       ${detail.sort((a, b) => b.id - a.id)
-        .map(({ description, category, amount, fundsAtTheTime, createdAt }) => {
+        .map(({ description, category, amount, fundsAtTheTime, createdAt, id }) => {
           const time = new Date(createdAt).toLocaleTimeString('ko-kr', {
             timeStyle: "short",
             hourCycle: "h24",
