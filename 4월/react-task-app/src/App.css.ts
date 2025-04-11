@@ -5,7 +5,7 @@ export const vars = createGlobalTheme(':root', {
     main: '#ffa726',
     mainDarker: '#f57c00',
     mainFaded: '#ffb74d',
-    mainFadedBright: '#ffb74da67',
+    mainFadedBright: '#ffb74da6',
     list: 'rgb(235, 236, 240)',
     task: 'rgb(255, 255, 255)',
     taskHover: 'rgb(245, 245, 245)',
@@ -35,7 +35,7 @@ export const vars = createGlobalTheme(':root', {
     body: 'arial'
   },
   shadow: {
-    basic: '4px, 4px 8px, 0px, rgba(34, 60, 80, 0.2)'
+    basic: '4px 4px 8px 0px rgba(34, 60, 80, 0.2)'
   },
   minWidth: {
     list: '250px'
