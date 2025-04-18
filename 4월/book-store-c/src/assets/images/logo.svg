@@ -1,0 +1,13 @@
+<svg width="300" height="80" viewBox="0 0 300 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- 책 표지 -->
+  <rect x="10" y="15" width="50" height="50" rx="8" fill="#f5deb3" stroke="#222" stroke-width="3"/>
+  <!-- 책 페이지 -->
+  <line x1="20" y1="25" x2="50" y2="25" stroke="#fff" stroke-width="2"/>
+  <line x1="20" y1="35" x2="50" y2="35" stroke="#fff" stroke-width="2"/>
+  <line x1="20" y1="45" x2="50" y2="45" stroke="#fff" stroke-width="2"/>
+  <line x1="20" y1="55" x2="50" y2="55" stroke="#fff" stroke-width="2"/>
+  <!-- 텍스트 -->
+  <text x="70" y="55" font-family="Arial, sans-serif" font-size="36" font-weight="bold" fill="#222">
+    Book Store
+  </text>
+</svg>
