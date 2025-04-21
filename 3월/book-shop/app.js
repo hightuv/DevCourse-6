@@ -7,6 +7,12 @@ const port = process.env.PORT;
 
 app.use(express.json());
 
+const cors = require('cors');
+app.use(cors({
+  origin: true,
+  credentials: true
+}));
+
 const bookRouter = require('./routes/books');
 const cartRouter = require('./routes/carts');
 const likeRouter = require('./routes/likes');
