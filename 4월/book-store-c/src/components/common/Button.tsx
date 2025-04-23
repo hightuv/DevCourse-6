@@ -8,11 +8,12 @@ interface Props extends ButtonHTMLAttributes<HTMLButtonElement>{
   scheme: ButtonScheme;
   disabled?: boolean;
   isLoading?: boolean;
+  onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-function Button({ children, size, scheme, disabled, isLoading }: Props) {
+function Button({ children, size, scheme, disabled, isLoading, onClick }: Props) {
   return (
-    <ButtonStyle size={size} scheme={scheme} disabled={disabled} isLoading={isLoading}>
+    <ButtonStyle size={size} scheme={scheme} disabled={disabled} isLoading={isLoading} onClick={onClick}>
       {children}
     </ButtonStyle>
   );
@@ -20,7 +21,7 @@ function Button({ children, size, scheme, disabled, isLoading }: Props) {
 
 const ButtonStyle = styled.button<Omit<Props, 'children'>>`
   font-size: ${({ theme, size }) => theme.button[size].fontSize};
-  padding: ${({ theme, size }) => theme.button[size].fontSize};
+  padding: ${({ theme, size }) => theme.button[size].padding};
   color: ${({ theme, scheme }) => theme.buttonScheme[scheme].color};
   background-color: ${({ theme, scheme }) => theme.buttonScheme[scheme].backgroundColor};
   border: 0;

@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const getBooks = (req, res) => {
   const response = {};
 
-  const { categoryId, new: isNew, limit, page } = req.query;
+  const { category_id: categoryId, news: isNew, limit, currentPage: page } = req.query;
 
   let query = 'select sql_calc_found_rows *, (select count(*) from likes where book_id = book.id) as likes from book';
   let conditions = [];
@@ -19,7 +19,7 @@ const getBooks = (req, res) => {
   }
 
   if (isNew) {
-    conditions.push('pub_date between date_sub(now(), interval 1 month) and now()');
+    conditions.push('pub_date between date_sub(now(), interval 2 month) and now()');
   }
 
   if (conditions.length) {
@@ -45,23 +45,21 @@ const getBooks = (req, res) => {
     }
 
     response.books = results;
-  });
 
-  query = 'select found_rows()';
-
-  db.query(query, (err, results) => {
-    if (err) {
-      console.log(err);
-      return res.status(StatusCodes.BAD_REQUEST).end();
-    }
-
-    response.pagination = {
-      currentPage: pageNum,
-      totalCount: results[0]['found_rows()']
-    };
-
-    return res.status(StatusCodes.OK).json(response);
-  });
+    db.query('select found_rows()', (err, results) => {
+      if (err) {
+        console.log(err);
+        return res.status(StatusCodes.BAD_REQUEST).end();
+      }
+  
+      response.pagination = {
+        currentPage: pageNum,
+        totalCount: results[0]['found_rows()']
+      };
+  
+      return res.status(StatusCodes.OK).json(response);
+    });
+  });  
 };
 
 const getBook = (req, res) => {

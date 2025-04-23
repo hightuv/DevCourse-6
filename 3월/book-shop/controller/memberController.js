@@ -54,7 +54,7 @@ const login = (req, res) => {
       });
       console.log(token);
 
-      return res.status(StatusCodes.OK).json(results);
+      return res.status(StatusCodes.OK).json({...results[0], token: token});
     }
 
     return res.status(StatusCodes.UNAUTHORIZED).end();

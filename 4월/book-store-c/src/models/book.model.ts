@@ -2,7 +2,7 @@ export interface Book {
   id: number;
   title: string;
   img: number;
-  category_iod: number;
+  category_id: number;
   form: string;
   isbn: string;
   summary: string;
