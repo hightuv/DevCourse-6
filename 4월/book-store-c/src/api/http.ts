@@ -10,11 +10,25 @@ export const createClient = (config?: AxiosRequestConfig) => {
     timeout: DEFAULT_TIMEOUT,
     headers: {
       'content-type': 'application/json',
-      Authorization: getToken() ? getToken() : '',
     },
     withCredentials: true,
     ...config,
   });
+
+  axiosInstance.interceptors.request.use(
+    (config) => {
+      const token = getToken();
+      if (token) {
+        config.headers = config.headers || {};
+        config.headers.Authorization = token;
+      } else if (config.headers && 'Authorization' in config.headers) {
+        delete config.headers.Authorization;
+      }
+      return config;
+    }, (error) => {
+      return Promise.reject(error);
+    }
+  );
 
   axiosInstance.interceptors.response.use(
     (response) => {
@@ -33,3 +47,28 @@ export const createClient = (config?: AxiosRequestConfig) => {
 };
 
 export const httpClient = createClient();
+
+// 공통 요청 부분
+
+type RequestMethod = 'get' | 'post' | 'put' | 'delete';
+
+export const requestHandler = async <T>(method: RequestMethod, url: string, payload?: T) => {
+  let response;
+
+  switch (method) {
+    case 'post':
+      response = await httpClient.post(url, payload);
+      break;
+    case 'get':
+      response = await httpClient.get(url);
+      break;
+    case 'put':
+      response = await httpClient.put(url, payload);
+      break;
+    case 'delete':
+      response = await httpClient.delete(url);
+      break;
+  }
+
+  return response.data;
+}

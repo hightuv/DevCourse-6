@@ -3,17 +3,19 @@ import { ButtonScheme, ButtonSize } from '../../style/theme';
 import { ButtonHTMLAttributes } from 'react';
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement>{
-  children: React.ReactNode
+  children: React.ReactNode;
   size: ButtonSize;
   scheme: ButtonScheme;
   disabled?: boolean;
   isLoading?: boolean;
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
+  className?: string;
+  type?: 'button' | 'submit' | 'reset';
 }
 
-function Button({ children, size, scheme, disabled, isLoading, onClick }: Props) {
+function Button({ children, size, scheme, disabled, isLoading, onClick, className, type }: Props) {
   return (
-    <ButtonStyle size={size} scheme={scheme} disabled={disabled} isLoading={isLoading} onClick={onClick}>
+    <ButtonStyle className={className} size={size} scheme={scheme} disabled={disabled} isLoading={isLoading} onClick={onClick} type={type}>
       {children}
     </ButtonStyle>
   );

@@ -19,7 +19,7 @@ const addToCart = (req, res) => {
   }
   
   const { id: memberId } = authorization;
-  const { bookId, quantity } = req.body;
+  const { book_id: bookId, quantity } = req.body;
 
   const query = 'insert into cartItem (book_id, quantity, member_id) values (?, ?, ?)';
   const values = [bookId, quantity, memberId];

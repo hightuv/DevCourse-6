@@ -1,4 +1,4 @@
-import { Book } from '../models/book.model';
+import { Book, BookDetail } from '../models/book.model';
 import { Pagination } from '../models/pagination.model';
 import { httpClient } from './http'
 
@@ -9,7 +9,7 @@ interface FetchBooksParams {
   limit: number;
 }
 
-interface FetchBooksResponse {
+export interface FetchBooksResponse {
   books: Book[];
   pagination: Pagination;
 }
@@ -30,4 +30,24 @@ export const fetchBooks = async (params: FetchBooksParams) => {
       },
     };
   }
+};
+
+export const fetchBook = async (bookId: string) => {
+  const response = await httpClient.get<BookDetail>(`/books/${bookId}`);
+  return response.data;
+};
+
+export const likeBook = async (bookId: number) => {
+  const response = await httpClient.post(`/likes/${bookId}`);
+  return response.data;
+};
+
+export const unlikeBook = async (bookId: number) => {
+  const response = await httpClient.delete(`/likes/${bookId}`);
+  return response.data;
+};
+
+export const fetchBestBooks = async () => {
+  const response = await httpClient.get<Book[]>('/books/best');
+  return response.data;
 };

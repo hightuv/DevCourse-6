@@ -18,5 +18,6 @@ export const GlobalStyle = createGlobalStyle<Props>`
   }
 
   * {
-  color: ${(props) => props.themeName === 'light' ? 'black' : 'white'};
+    color: ${(props) => props.themeName === 'light' ? 'black' : 'white'};
+  }
 `;

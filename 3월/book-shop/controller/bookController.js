@@ -7,7 +7,7 @@ const jwt = require('jsonwebtoken');
 const getBooks = (req, res) => {
   const response = {};
 
-  const { category_id: categoryId, news: isNew, limit, currentPage: page } = req.query;
+  const { category_id: categoryId, news: isNew, currentPage: page, limit } = req.query;
 
   let query = 'select sql_calc_found_rows *, (select count(*) from likes where book_id = book.id) as likes from book';
   let conditions = [];
@@ -18,7 +18,7 @@ const getBooks = (req, res) => {
     values.push(categoryId);
   }
 
-  if (isNew) {
+  if (isNew === 'true') {
     conditions.push('pub_date between date_sub(now(), interval 2 month) and now()');
   }
 
@@ -78,8 +78,8 @@ const getBook = (req, res) => {
     const { id: bookId } = req.params;
 
     let query = `
-                  select b.*,
-                    c.name as category_name,
+                  select b.*, b.pub_date as pubDate,
+                    c.name as categoryName,
                     (select count(*) from likes where book_id = b.id) as likes
                 `;
 

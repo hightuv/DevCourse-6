@@ -101,7 +101,7 @@ const getOrders = async (req, res) => {
     await conn.beginTransaction();
 
     query = `
-              select o.id, o.created_at, d.address, d.receiver, d.contact, o.book_title, o.total_quantity, o.total_price 
+              select o.id, o.created_at as createdAt, d.address, d.receiver, d.contact, o.book_title as bookTitle, o.total_quantity as totalQuantity, o.total_price as totalPrice 
               from orders o left join delivery d
               on o.delivery_id = d.id;
             `;
@@ -144,7 +144,7 @@ const getOrderDetail = async (req, res) => {
     await conn.beginTransaction();
 
     query = `
-              select o.book_id, b.title, b.author, b.price, o.quantity
+              select o.book_id as bookId, b.title, b.author, b.price, o.quantity
               from orderedBook o left join book b
               on o.book_id = b.id
               where o.order_id = ?;

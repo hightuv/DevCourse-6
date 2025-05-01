@@ -45,7 +45,7 @@ const login = (req, res) => {
         id: loginMember.id,
         email: loginMember.email
       }, process.env.PRIVATE_KEY, {
-        expiresIn: '5m',
+        expiresIn: '1h',
         issuer: 'hightuv'
       });
 

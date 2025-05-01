@@ -4,4 +4,5 @@ export interface Cart {
   title: string;
   summary: string;
   quantity: number;
+  price: number;
 }
